@@ -5,33 +5,53 @@ import {IUserDTO} from "../interfaces/user.interface";
 
 class UserController {
     public async getAll(req: Request, res: Response) {
-        const data = await userService.getAll();
-        res.status(StatusCodes.OK).json(data);
+        try {
+            const data = await userService.getAll();
+            res.status(StatusCodes.OK).json(data);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     public async getById(req: Request, res: Response) {
-        const {id} = req.params;
-        const data = await userService.getById(id);
-        res.status(StatusCodes.OK).json(data);
+        try {
+            const {id} = req.params;
+            const data = await userService.getById(id);
+            res.status(StatusCodes.OK).json(data);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     public async create(req: Request, res: Response) {
-        const user = req.body as IUserDTO;
-        const data = await userService.create(user);
-        res.status(StatusCodes.CREATED).json(data);
+        try {
+            const user = req.body as IUserDTO;
+            const data = await userService.create(user);
+            res.status(StatusCodes.CREATED).json(data);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     public async update(req: Request, res: Response) {
-        const {id} = req.params;
-        const newData = req.body as IUserDTO;
-        const data = await userService.update(id, newData);
-        res.status(StatusCodes.OK).json(data);
+        try {
+            const {id} = req.params;
+            const newData = req.body as IUserDTO;
+            const data = await userService.update(id, newData);
+            res.status(StatusCodes.OK).json(data);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     public async delete(req: Request, res: Response) {
-        const {id} = req.params;
-        await userService.delete(id);
-        res.status(StatusCodes.NO_CONTENT).end();
+        try {
+            const {id} = req.params;
+            await userService.delete(id);
+            res.status(StatusCodes.NO_CONTENT).end();
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 }
 
