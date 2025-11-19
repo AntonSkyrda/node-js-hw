@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 
-import { StatusCodes } from "../enums/status-codes.enum";
-import { IUserDTO } from "../interfaces/user.interface";
+import { StatusCodesEnum } from "../enums/status-codes.enum";
+import { IUserUpdateDTO } from "../interfaces/user.interface";
 import { userService } from "../services/user.service";
 
 class UserController {
     public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await userService.getAll();
-            res.status(StatusCodes.OK).json(data);
+            res.status(StatusCodesEnum.OK).json(data);
         } catch (error) {
             next(error);
         }
@@ -18,17 +18,7 @@ class UserController {
         try {
             const { id } = req.params;
             const data = await userService.getById(id);
-            res.status(StatusCodes.OK).json(data);
-        } catch (error) {
-            next(error);
-        }
-    }
-
-    public async create(req: Request, res: Response, next: NextFunction) {
-        try {
-            const user = req.body as IUserDTO;
-            const data = await userService.create(user);
-            res.status(StatusCodes.CREATED).json(data);
+            res.status(StatusCodesEnum.OK).json(data);
         } catch (error) {
             next(error);
         }
@@ -37,9 +27,9 @@ class UserController {
     public async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
-            const newData = req.body as IUserDTO;
+            const newData = req.body as IUserUpdateDTO;
             const data = await userService.update(id, newData);
-            res.status(StatusCodes.OK).json(data);
+            res.status(StatusCodesEnum.OK).json(data);
         } catch (error) {
             next(error);
         }
@@ -49,7 +39,7 @@ class UserController {
         try {
             const { id } = req.params;
             await userService.delete(id);
-            res.status(StatusCodes.NO_CONTENT).end();
+            res.status(StatusCodesEnum.NO_CONTENT).end();
         } catch (error) {
             next(error);
         }

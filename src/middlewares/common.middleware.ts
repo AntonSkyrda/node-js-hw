@@ -4,7 +4,7 @@ import { isObjectIdOrHexString } from "mongoose";
 
 import { ApiError } from "../errors/api.errors";
 
-class CommonMiddlewares {
+class CommonMiddleware {
     public isIdValid(key: string) {
         return (req: Request, res: Response, next: NextFunction) => {
             try {
@@ -32,4 +32,4 @@ class CommonMiddlewares {
     }
 }
 
-export const commonMiddlewares = new CommonMiddlewares();
+export const commonMiddleware = new CommonMiddleware();
