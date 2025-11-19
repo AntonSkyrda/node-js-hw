@@ -8,6 +8,7 @@ export interface IUser extends IBase {
     role: RolesEnum;
     isDeleted: boolean;
     isVerified: boolean;
+    isActive: boolean;
     name: string;
     surname: string;
     age: number;

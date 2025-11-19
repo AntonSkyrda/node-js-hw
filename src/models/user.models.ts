@@ -32,6 +32,10 @@ const userSchema = new Schema(
             type: Number,
             required: true,
         },
+        isActive: {
+            type: Boolean,
+            default: true,
+        },
         isDeleted: {
             type: Boolean,
             default: false,
