@@ -5,7 +5,7 @@ import { IAuth } from "../interfaces/auth.interface";
 import { ITokenPayload } from "../interfaces/token.interface";
 import { IUserCreateDTO } from "../interfaces/user.interface";
 import { tokenRepository } from "../repository/token.repository";
-import { authService } from "../services/auth.sevice";
+import { authService } from "../services/auth.service";
 import { tokenService } from "../services/token.service";
 import { userService } from "../services/user.service";
 
@@ -52,6 +52,51 @@ class AuthController {
                 _userID: userId,
             });
             res.status(StatusCodesEnum.OK).json(tokens);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    public async activate(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { token } = req.params;
+            const user = await authService.activate(token);
+            res.status(StatusCodesEnum.OK).json(user);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    public async recoveryRequest(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ) {
+        try {
+            const { email } = req.body;
+            const user = await userService.getByEmail(email);
+            if (user) {
+                res.status(StatusCodesEnum.OK).json({
+                    details: "Check your email address",
+                });
+            }
+            await authService.recoveryPasswordRequest(user);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    public async recoveryPassword(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ) {
+        try {
+            console.log(req.params);
+            const { token } = req.params as { token: string };
+            const { password } = req.body;
+            const user = await authService.recoveryPassword(token, password);
+            res.status(StatusCodesEnum.OK).json(user);
         } catch (error) {
             next(error);
         }

@@ -1,9 +1,5 @@
-import {
-    IUser,
-    IUserCreateDTO,
-    IUserUpdateDTO,
-} from "../interfaces/user.interface";
-import { User } from "../models/user.models";
+import { IUser, IUserCreateDTO } from "../interfaces/user.interface";
+import { User } from "../models/user.model";
 
 class UserRepository {
     public getAll(): Promise<IUser[]> {
@@ -18,7 +14,7 @@ class UserRepository {
         return User.create(user);
     }
 
-    public update(userId: string, userData: IUserUpdateDTO): Promise<IUser> {
+    public update(userId: string, userData: Partial<IUser>): Promise<IUser> {
         return User.findByIdAndUpdate(userId, userData, { new: true });
     }
 
