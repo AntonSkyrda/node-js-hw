@@ -20,7 +20,7 @@ pids
 *.pid.lock
 
 # Dependency directories
-node_modules/
+backend/node_modules/
 
 # Build outputs
 dist/
@@ -29,6 +29,7 @@ out/
 coverage/
 tmp/
 temp/
+mongo_db/
 
 # Environment variables
 .env
