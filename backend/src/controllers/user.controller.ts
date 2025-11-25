@@ -53,7 +53,7 @@ class UserController {
             const { userId } = req.res.locals.tokenPayload as ITokenPayload;
 
             if (id === userId) {
-                throw new ApiError("Not permited", StatusCodesEnum.FORBIDDEN);
+                throw new ApiError("Not permitted", StatusCodesEnum.FORBIDDEN);
             }
 
             const data = await userService.blockUer(id);
@@ -69,7 +69,7 @@ class UserController {
             const { userId } = req.res.locals.tokenPayload as ITokenPayload;
 
             if (id === userId) {
-                throw new ApiError("Not permited", StatusCodesEnum.FORBIDDEN);
+                throw new ApiError("Not permitted", StatusCodesEnum.FORBIDDEN);
             }
 
             const data = await userService.unblockUer(id);
