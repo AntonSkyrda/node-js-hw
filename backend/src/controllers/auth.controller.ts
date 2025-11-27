@@ -33,7 +33,7 @@ class AuthController {
 
     public async me(req: Request, res: Response, next: NextFunction) {
         try {
-            const tokenPayload = req.body.tokenPayload as ITokenPayload;
+            const tokenPayload = res.locals.tokenPayload as ITokenPayload;
             const { userId } = tokenPayload;
             const user = await userService.getById(userId);
             res.status(StatusCodesEnum.OK).json(user);
@@ -51,7 +51,7 @@ class AuthController {
                 ...tokens,
                 _userID: userId,
             });
-            res.status(StatusCodesEnum.OK).json(tokens);
+            res.status(StatusCodesEnum.OK).json({ tokens });
         } catch (error) {
             next(error);
         }

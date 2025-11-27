@@ -1,8 +1,15 @@
-import {useGetPizza} from "../../hooks/useGetPizza.ts";
 import {PizzaComponent} from "../pizza-component/PizzaComponent.tsx";
+import {useAppDispatch, useAppSelector} from "../../hooks/reduxHooks.ts";
+import {pizzaActions} from "../../redux/slices/pizza.slice.ts";
+import {useEffect} from "react";
 
 export const PizzasComponent = () => {
-    const pizzas = useGetPizza()
+    const {pizzas, trigger} = useAppSelector(state => state.pizzas)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(pizzaActions.getAll())
+    }, [dispatch, trigger])
 
     return (
         <div>

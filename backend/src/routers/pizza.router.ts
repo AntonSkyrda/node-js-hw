@@ -11,8 +11,7 @@ router.get("/", pizzaController.getAll);
 router.get("/:id", commonMiddleware.isIdValid("id"), pizzaController.getById);
 router.post(
     "/",
-    authMiddleware.checkAccessToken,
-    authMiddleware.isAdmin,
+    // authMiddleware.checkAccessToken,
     commonMiddleware.validateBody(PizzaValidator.create),
     pizzaController.create,
 );

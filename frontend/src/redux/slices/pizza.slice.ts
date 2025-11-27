@@ -4,10 +4,12 @@ import {pizzaService} from "../../services/pizza.service.ts";
 
 interface IState {
     pizzas: IPizza[];
+    trigger: boolean
 }
 
 const initialState: IState = {
     pizzas: [],
+    trigger: null
 }
 
 
@@ -42,6 +44,9 @@ const pizzaSlice = createSlice({
         .addCase(getAll.fulfilled, (state, action) => {
             state.pizzas = action.payload
         })
+        .addCase(create.fulfilled, (state) => {
+            state.trigger = !state.trigger
+        })
 })
 
 const {reducer: pizzaReducer, actions} = pizzaSlice;
@@ -49,6 +54,7 @@ const {reducer: pizzaReducer, actions} = pizzaSlice;
 const pizzaActions = {
     ...actions,
     getAll,
+    create,
 }
 
 export {

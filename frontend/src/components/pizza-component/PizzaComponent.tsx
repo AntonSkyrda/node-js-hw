@@ -9,6 +9,8 @@ export const PizzaComponent: FC<PizzaPropsType> = ({pizza}) => {
     return (
         <div>
             <h2>{pizza.name}</h2>
+            <p>Diameter: {pizza.diameter}</p>
+            <p>Price: {pizza.price}$</p>
         </div>
     )
 }

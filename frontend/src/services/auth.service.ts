@@ -14,11 +14,25 @@ export const authService = {
         return authService.register(user);
     },
 
+    async refresh():Promise<void> {
+        const refreshToken = this.getRefreshToken()
+        if (refreshToken) {
+           const {data} = await apiService.post<IToken>(urls.auth.refresh, {refreshToken});
+           this.setTokens(data);
+        }
+    },
+
+
     async login(user: IAuth): Promise<IUser> {
         const {data} = await apiService.post<IToken>(urls.auth.login,user);
         this.setTokens(data);
         const {data:me} = await this.me();
         return me;
+    },
+
+    deleteTokens():void {
+        localStorage.removeItem(_accessToken);
+        localStorage.removeItem(_refreshToken);
     },
 
     me(): IResponseType<IUser> {

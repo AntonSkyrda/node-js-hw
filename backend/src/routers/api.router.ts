@@ -8,6 +8,6 @@ const router = Router();
 
 router.use("/users", userRouter);
 router.use("/auth", authRouter);
-router.use("/pizza", pizzaRouter);
+router.use("/pizzas", pizzaRouter);
 
 export const apiRouter = router;

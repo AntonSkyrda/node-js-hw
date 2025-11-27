@@ -6,7 +6,7 @@ import {pizzaReducer} from "./slices/pizza.slice.ts";
 export const store = configureStore({
     reducer: {
         auth: authReducer,
-        pizza: pizzaReducer,
+        pizzas: pizzaReducer,
     }
 })
 

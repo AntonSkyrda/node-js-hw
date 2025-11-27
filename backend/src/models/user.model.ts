@@ -48,6 +48,12 @@ const userSchema = new Schema(
     {
         timestamps: true,
         versionKey: false,
+        toJSON: {
+            transform(value: any, ret: any) {
+                delete ret.password;
+                return ret;
+            },
+        },
     },
 );
 
