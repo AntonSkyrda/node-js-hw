@@ -50,7 +50,7 @@ class UserController {
     public async blockUser(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
-            const { userId } = req.res.locals.tokenPayload as ITokenPayload;
+            const { userId } = res.locals.tokenPayload as ITokenPayload;
 
             if (id === userId) {
                 throw new ApiError("Not permitted", StatusCodesEnum.FORBIDDEN);
@@ -66,13 +66,27 @@ class UserController {
     public async unblockUser(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
-            const { userId } = req.res.locals.tokenPayload as ITokenPayload;
+            const { userId } = res.locals.tokenPayload as ITokenPayload;
 
             if (id === userId) {
                 throw new ApiError("Not permitted", StatusCodesEnum.FORBIDDEN);
             }
 
             const data = await userService.unblockUer(id);
+            res.status(StatusCodesEnum.OK).json(data);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    public async uploadAvatar(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { userId } = res.locals.tokenPayload as ITokenPayload;
+
+            const data = await userService.update(userId, {
+                avatar: req.file.path,
+            });
+
             res.status(StatusCodesEnum.OK).json(data);
         } catch (error) {
             next(error);

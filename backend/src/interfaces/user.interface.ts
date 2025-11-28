@@ -12,6 +12,7 @@ export interface IUser extends IBase {
     name: string;
     surname: string;
     age: number;
+    avatar: string;
 }
 
 export type IUserCreateDTO = Pick<

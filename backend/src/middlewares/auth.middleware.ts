@@ -42,7 +42,7 @@ class AuthMiddleware {
                     StatusCodesEnum.UNAUTHORIZED,
                 );
             }
-            req.res.locals.tokenPayload = tokenPayload;
+            res.locals.tokenPayload = tokenPayload;
             next();
         } catch (error) {
             next(error);
@@ -84,7 +84,7 @@ class AuthMiddleware {
                     StatusCodesEnum.FORBIDDEN,
                 );
             }
-            req.res.locals.tokenPayload = tokenPayload;
+            res.locals.tokenPayload = tokenPayload;
 
             next();
         } catch (error) {
@@ -94,7 +94,7 @@ class AuthMiddleware {
 
     public isAdmin(req: Request, res: Response, next: NextFunction) {
         try {
-            const { role } = req.res.locals.tokenPayload as ITokenPayload;
+            const { role } = res.locals.tokenPayload as ITokenPayload;
             if (role !== "admin") {
                 throw new ApiError(
                     "No has permission",
