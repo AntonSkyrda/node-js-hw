@@ -15,6 +15,13 @@ export interface IUser extends IBase {
     avatar: string;
 }
 
+export interface IUserQuery {
+    itemsPerPage: number;
+    page: number;
+    search?: string;
+    orderBy?: string;
+}
+
 export type IUserCreateDTO = Pick<
     IUser,
     "email" | "password" | "name" | "surname" | "age"

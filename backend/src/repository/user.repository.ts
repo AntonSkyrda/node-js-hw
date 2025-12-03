@@ -1,9 +1,29 @@
-import { IUser, IUserCreateDTO } from "../interfaces/user.interface";
+import { FilterQuery } from "mongoose";
+
+import {
+    IUser,
+    IUserCreateDTO,
+    IUserQuery,
+} from "../interfaces/user.interface";
 import { User } from "../models/user.model";
 
 class UserRepository {
-    public getAll(): Promise<IUser[]> {
-        return User.find();
+    public getAll(query: IUserQuery): Promise<any> {
+        const filterObject: FilterQuery<IUser> = { isDeleted: false };
+        const skip = query.itemsPerPage * (query.page - 1);
+        if (query.search) {
+            filterObject.$or = [
+                { name: { $regex: query.search, $options: "i" } },
+                { surname: { $regex: query.search, $options: "i" } },
+            ];
+        }
+
+        return Promise.all([
+            User.find(filterObject)
+                .limit(query.itemsPerPage)
+                .skip(skip)
+                .sort(query.orderBy),
+        ]);
     }
 
     public getById(userId: string): Promise<IUser> {

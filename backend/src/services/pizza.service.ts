@@ -1,11 +1,27 @@
 import { StatusCodesEnum } from "../enums/status-codes.enum";
 import { ApiError } from "../errors/api.errors";
-import { IPizza, IPizzaCreateDTO } from "../interfaces/pizza.interface";
+import { IPaginatedResponse } from "../interfaces/paginated-response.interface";
+import {
+    IPizza,
+    IPizzaCreateDTO,
+    IPizzaQuery,
+} from "../interfaces/pizza.interface";
 import { pizzaRepository } from "../repository/pizza.repository";
 
 class PizzaService {
-    public getAll(): Promise<IPizza[]> {
-        return pizzaRepository.getAll();
+    public async getAll(
+        query: IPizzaQuery,
+    ): Promise<IPaginatedResponse<IPizza>> {
+        const [data, totalItems] = await pizzaRepository.getAll(query);
+        const totalPages = Math.ceil(totalItems / query.itemsPerPage);
+
+        return {
+            totalItems,
+            totalPages,
+            previousPage: !!(query.page - 1),
+            nextPage: query.page + 1 <= totalPages,
+            data: data,
+        };
     }
 
     public async getById(pizzaId: string): Promise<IPizza> {

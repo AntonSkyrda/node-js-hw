@@ -41,10 +41,24 @@ class CommonMiddleware {
                         StatusCodesEnum.BAD_REQUEST,
                     );
                 }
-                console.log(req.file);
                 next();
             } catch (error) {
                 next(new ApiError(error.details[0].message, 400));
+            }
+        };
+    }
+
+    public query(validator: ObjectSchema) {
+        return async (req: Request, res: Response, next: NextFunction) => {
+            try {
+                const validated = await validator.validateAsync(req.query);
+                Object.assign(req.query as any, validated);
+                next();
+            } catch (error) {
+                console.log("Joi error:", error);
+                const message =
+                    error?.details?.[0]?.message || "Invalid query params";
+                next(new ApiError(message, 400));
             }
         };
     }
